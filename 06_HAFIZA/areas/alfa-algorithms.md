@@ -1,0 +1,42 @@
+---
+name: alfa-algorithms
+description: ALFA V1 and variant screening algorithms (incl. his Kârlılık + momentum strategy) — tuning, backtesting findings, architectural experiments
+aliases: [ALFA V1, V1, Katılım version, dipten dönüş, Değer Yatırımı V1.1, ALFA V4.1, Büyüme Stratejisi, K10]
+sources: [backfill, chat, cowork]
+---
+- [stated] Refining ALFA V1 (version 6.3.55, ~306B TL terminal value, Sharpe 1.48)
+- [stated] Developing new variants: a Katılım (Islamic finance-compliant) version, a value-focused model, and a turnaround (dipten dönüş) strategy
+- [stated] Value-focused model best result: ~190B TL, Sharpe 1.54, zero negative years over 21 years using F-Score ≥7 + EV/EBITDA + momentum
+- [stated] Architectural experiments: F-Score + Z-Score ranking systems, dynamic PDDD limits (ROE-proportional), a roeSahte penalty for leverage-inflated ROE, an efkTeyit/roeTeyit non-deterioration gate
+- [stated] A friend's algorithm (Sharpe 1.84, Jensen 28.76) serves as an explicit performance benchmark
+- [stated] Evaluating technical analysis strategies (ATR bands, MFI, Williams %R, sector RS) for compatibility with V1
+- [stated] Identified a macro-level market regime filter as the highest-value missing capability
+- [stated] Systematic backtesting on BIST via Quenstock, controlled single-variable experiments across 2005–2026
+- [stated] Backtest finding: MA20>MA60 filter should be retained
+- [stated] Backtest finding: relaxing HHV threshold from 0.77 to 0.70 significantly improved Sharpe (~1.01 to 1.99)
+- [stated] Transitioned V1's strict fundamental filter architecture toward F-Score based systems to address portfolio starvation (V1 passing only ~3 stocks/month)
+- [stated] Cross-testing: V1's ranking system outperforms Z-Score ranking ~4× on the same candidate pool
+- [stated] Cross-testing: catastrophic drawdowns (−55 to −59%) slip through broad F-Score gates without tight technical filters
+- [stated] Z-Score functions caused platform lag, leading to IF-based fixed scoring
+- [stated] Halka açıklık filter (HAOran < 60) was the single most impactful individual addition tested
+- [stated] Stock autopsy (otopsi) sessions identified TÜFE scissor effects in hyperinflation and structural blindness to financial sector companies (null FAVOK) as confirmed but non-actionable phenomena
+- [stated] The value-focused model is named "Değer Yatırımı V1.1" on QueenStocks; moving its iterative backtest optimization to Cowork scheduled tasks
+- [stated] Uses a "Kârlılık + momentum" (profitability + momentum) strategy on QueenStocks with its own temel, teknik and sıralama criteria
+- [stated] His Kârlılık + momentum strategy has two algorithm versions: a geniş havuz (wide pool) and a dar havuz (narrow pool); develops them one at a time, starting with the geniş havuz version, with stability and win rate prioritized over capital
+- [stated] The geniş havuz Kârlılık + momentum strategy is named "ALFA V4.1 (GENIŞ HAVUZ)" on QueenStocks
+- [stated] Decided for ALFA V4.1 (geniş havuz): adopt the corrected leverage gate using annual FAVÖK (FAVÖK must be positive), and keep the flexible PD/DD exception for very high ROE stocks
+- [stated] Defines ALFA V4.1 (geniş havuz) as a growth + profitability + momentum strategy; gave Claude full freedom to redesign it from scratch (gates, technical and ranking, even an F-score style setup), aiming for the best-returning design that finds more stocks per month (fewer <5-stock months), like the value strategy
+- [stated] Target for the ALFA V4.1 (geniş havuz) redesign: final capital at least 4-5× the base (a floor, not the goal — wants the best achievable design with no loose ends); simplicity of the formulas also matters
+- [stated] His ALFA V1.4 algorithm (IF-based capped scoring plus penalty modules) has too narrow a pool (many <5-stock months), which limits its usability
+- [stated] Adopted K6A (absolute-scored kâr ivmesi ranking, "ALFA V5 (GENIŞ HAVUZ) K6A") as the new champion of the geniş havuz Kârlılık + momentum strategy; wants continuous further development on top of it (diagnosis, literature, technical metrics like Minervini/CAN SLIM, many combination tests)
+- [stated] For the geniş havuz Kârlılık + momentum strategy: wants a thorough audit first (literature gaps, missed top winners per year, loser elimination, leakage tests), then a focus on raising stability + return, especially K-Ratio (much lower than his value strategy's); wants the plan laid out heading by heading for his approval, then run automatically and adhered to
+- [stated] Naming from now on: K10 (ALFA V5 geniş havuz) = "Büyüme Stratejisi"; C32 = "Değer Yatırımı Stratejisi"; their %50/%50 combination = "Büyüme + Değer Yatırımı Stratejisi"
+- [stated] These strategies run on the BIST TÜM universe (labelled "BISTTUM", e.g. in file names); plans to later build similar strategies within BIST 100, BIST 50 and BIST 30 universes
+- [stated] Building a BIST100 version of the Büyüme Stratejisi (K10); decided it must never hold cash — always 5 stocks, filling short months by relaxing technical conditions first, then fundamental ones
+- [stated] Keeps K10's growth > TÜFE thresholds unchanged (no TMS 29 inflation-accounting adjustment, no raised bar)
+- [stated] Declared variant K4a the champion of the BIST100 Büyüme Stratejisi and named it "Büyüme Stratejisi (BIST100)" on QueenStocks
+- [stated] Had earlier algorithm versions ALFA V1.4, V2.4, V3.4, V1.1.2 and V1.2.2 on QueenStocks
+- [stated] Plans to invest via the Büyüme Stratejisi alone, with this rule: hold its 5 stocks; a stock also picked by the Değer Yatırımı Stratejisi gets 2 shares (pay), the others 1; if there is no common stock, the portfolio is just the Büyüme Stratejisi
+- [stated] Building a BIST Katılım (geniş havuz) version of the Büyüme Stratejisi: no cash — always 5 stocks; decided to develop it on two universes together (QueenStocks' own Katılım index history and an emulated compliance screen), with a final check on the real Katılım Tüm period from late 2021
+- [stated] Method rule for his strategy work: every trial except the baseline (taban) is tested in simulation first; only then on the QueenStocks site
+- [stated] Accepted B0D (K10 + tiered filling) as champion of the BIST Katılım Büyüme Stratejisi, going with the statistically sound option; the HA<90 variant is kept only as a shadow; published on QueenStocks as "Büyüme Stratejisi (BISTKATILIM)"
