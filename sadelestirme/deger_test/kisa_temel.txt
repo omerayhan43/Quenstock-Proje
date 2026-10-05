@@ -1,0 +1,21 @@
+ocf=FAVOKYillik()-(NetIsletmeSermayesi()-NetIsletmeSermayesi(null,-4));
+bedelliTarih=SermayeArtisBedelliTarihi();
+fskor=IF(NetKarYillik()>0,1,0)
+ +IF(ocf>0,1,0)
+ +IF(AktifKarlilikYillik()>AktifKarlilikYillik(null,-4),1,0)
+ +IF(ocf>NetKarYillik(),1,0)
+ +IF((ToplamBorc()/Aktifler())<(ToplamBorc(null,-4)/Aktifler(null,-4)),1,0)
+ +IF(CariOran()>CariOran(-4),1,0)
+ +IF(BrutKarMarji()>BrutKarMarji(-4),1,0)
+ +IF(AktifDevirHizi()>AktifDevirHizi(null,-4),1,0)
+ +IF(bedelliTarih==null || YilEkle(bedelliTarih,1)<=AnalizTarih,1,0);
+ceyrekPayi=FAVOK()/FAVOKYillik();
+fk=FK();
+pddd=PDDD();
+fskor>=7 and FDFAVOK()>0
+ and Getiri("s12a","TL")-Getiri("s1a","TL")>Getiri("s12a","TL","XU100")-Getiri("s1a","TL","XU100")
+ and HAOran()<60
+ and (ceyrekPayi>0.22 || NetSatisBuyumeYillik()>50)
+ and (fk==null || fk<40)
+ and IF(Getiri("s6a","TL")>=0,1,0)+IF(Teknik.Indicator("C/LLV(C,250)","d")>=1.5,1,0)+IF(Teknik.Indicator("C/HHV(C,250)","d")>=0.70,1,0)>=2
+ and (pddd==null || pddd<8);
