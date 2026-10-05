@@ -60,5 +60,5 @@ Not (05/10): pdddTavan, zirveMesafe ve momFark ara satırları kullanıldıklar�
 |---|---|---|---|---|
 | — | orijinal 13 | orijinal 26 | 953.463.410.572 TL | 00:43:38 |
 | 05/10/2026 | 9 ifade (roe, pdddTavan ayrı) | orijinal 26 | 953.463.410.572 TL ✓ (Ömer) | 00:38:44 |
-| 05/10/2026 | 9 ifade | 20 ifade (zirveMesafe, momFark ayrı) | sürüyor | |
-| sırada | 8 ifade | 18 ifade (bu dosyadaki metin) | | |
+| 05/10/2026 | 9 ifade | 20 ifade (zirveMesafe, momFark ayrı) | (Kısaltma Denemesi-1; sonuç bildirilmedi) | |
+| 05/10/2026 | 8 ifade | 18 ifade (bu dosyadaki metin) | 953.463.410.572 TL ✓ (Kısaltma Denemesi-2) | 00:33:29 (−%23; ilk dakikaları Denemesi-1 ile eşzamanlı) |
