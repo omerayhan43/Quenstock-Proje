@@ -1,0 +1,25 @@
+ocf=FAVOK()-(NetIsletmeSermayesi()-NetIsletmeSermayesi(null,-4));
+bedelliTarih=SermayeArtisBedelliTarihi();
+fskor=IF(NetKarYillik()>0,1,0)
+ +IF(ocf>0,1,0)
+ +IF(AktifKarlilikYillik()>AktifKarlilikYillik(null,-4),1,0)
+ +IF(ocf>NetKarYillik(),1,0)
+ +IF((ToplamBorc()/Aktifler())<(ToplamBorc(null,-4)/Aktifler(null,-4)),1,0)
+ +IF(CariOran()>CariOran(-4),1,0)
+ +IF(BrutKarMarji()>BrutKarMarji(-4),1,0)
+ +IF(AktifDevirHizi()>AktifDevirHizi(null,-4),1,0)
+ +IF(bedelliTarih==null || YilEkle(bedelliTarih,1)<=AnalizTarih,1,0);
+fdf=FDFAVOK();
+trendYuzdesi=((Kapanis()-Mov(75))/Mov(75))*100;
+ocfRasyo=ocf/Aktifler();
+pddd=PDDD();
+SkorA=(IF(fdf<=0.5,100,IF(fdf>=15,0,(1-(Log(fdf)/Log(15)))*100))*0.73)
+ +(IF(trendYuzdesi>30,30,IF(trendYuzdesi<0,0,trendYuzdesi))*0.22)
+ +(IF(ocfRasyo>0.15,5,IF(ocfRasyo>0.08,3,IF(ocfRasyo>0,1,0)))*0.72)
+ +(IF(pddd<1.5,5,IF(pddd<3,3,0))*0.72)
+ +(IF(fskor>=9 AND ocfRasyo>0.15 AND pddd<2,15,0)*0.72)
+ +(IF(ocf>0,5,0)*0.72);
+pdnx=PDNakitAkis();
+cfpc=IF(pdnx == null || pdnx == 0, -999, 1 / IF(pdnx == null || pdnx == 0, 1, pdnx));
+cfpe=IF(cfpc == -999, 0.5, IF(cfpc < 0, 0, IF(cfpc <= 0.036716, 0.05 * cfpc / 0.036716, IF(cfpc <= 0.050129, 0.05 + 0.05 * (cfpc - 0.036716) / 0.013413, IF(cfpc <= 0.082663, 0.10 + 0.15 * (cfpc - 0.050129) / 0.032534, IF(cfpc <= 0.128810, 0.25 + 0.25 * (cfpc - 0.082663) / 0.046147, IF(cfpc <= 0.192415, 0.50 + 0.25 * (cfpc - 0.128810) / 0.063605, IF(cfpc <= 0.298789, 0.75 + 0.15 * (cfpc - 0.192415) / 0.106374, IF(cfpc <= 0.401334, 0.90 + 0.05 * (cfpc - 0.298789) / 0.102545, IF(cfpc <= 0.802668, 0.95 + 0.05 * (cfpc - 0.401334) / 0.401334, 1))))))))));
+Skor=SkorA+4*(cfpe-0.5);

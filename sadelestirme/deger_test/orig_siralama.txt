@@ -1,0 +1,31 @@
+s1 = IF(NetKarYillik() > 0, 1, 0);
+OCF_s = FAVOK() - (NetIsletmeSermayesi() - NetIsletmeSermayesi(null,-4));
+s2 = IF(OCF_s > 0, 1, 0);
+s3 = IF(AktifKarlilikYillik() > AktifKarlilikYillik(null,-4), 1, 0);
+s4 = IF(OCF_s > NetKarYillik(), 1, 0);
+s5 = IF((ToplamBorc() / Aktifler()) < (ToplamBorc(null,-4) / Aktifler(null,-4)), 1, 0);
+s6 = IF(CariOran() > CariOran(-4), 1, 0);
+s7 = IF(BrutKarMarji() > BrutKarMarji(-4), 1, 0);
+s8 = IF(AktifDevirHizi() > AktifDevirHizi(null,-4), 1, 0);
+tarih = SermayeArtisBedelliTarihi();
+s9 = IF(tarih == null || YilEkle(tarih,1) <= AnalizTarih, 1, 0);
+
+Fskor = s1+s2+s3+s4+s5+s6+s7+s8+s9;
+
+fdfavokSkor = IF(FDFAVOK() <= 0.5, 100, IF(FDFAVOK() >= 15, 0, (1 - (Log(FDFAVOK()) / Log(15))) * 100));
+
+trendYuzdesi = ((Kapanis() - Mov(75)) / Mov(75)) * 100;
+trendSkor = IF(trendYuzdesi > 30, 30, IF(trendYuzdesi < 0, 0, trendYuzdesi));
+
+OCF = FAVOK() - (NetIsletmeSermayesi() - NetIsletmeSermayesi(null,-4));
+ocfRasyo = OCF / Aktifler();
+
+nakitBonus = IF(ocfRasyo > 0.15, 5, IF(ocfRasyo > 0.08, 3, IF(ocfRasyo > 0, 1, 0)));
+pdddBonus = IF(PDDD() < 1.5, 5, IF(PDDD() < 3, 3, 0));
+superKalite = IF(Fskor >= 9 AND ocfRasyo > 0.15 AND PDDD() < 2, 15, 0);
+SkorA = (fdfavokSkor * 0.73) + (trendSkor * 0.22) + (nakitBonus * 0.72) + (pdddBonus * 0.72) + (superKalite * 0.72) + (IF(s2 == 1, 5, 0) * 0.72);
+
+pdnx = PDNakitAkis();
+cfpc = IF(pdnx == null || pdnx == 0, -999, 1 / IF(pdnx == null || pdnx == 0, 1, pdnx));
+cfpe = IF(cfpc == -999, 0.5, IF(cfpc < 0, 0, IF(cfpc <= 0.036716, 0.05 * cfpc / 0.036716, IF(cfpc <= 0.050129, 0.05 + 0.05 * (cfpc - 0.036716) / 0.013413, IF(cfpc <= 0.082663, 0.10 + 0.15 * (cfpc - 0.050129) / 0.032534, IF(cfpc <= 0.128810, 0.25 + 0.25 * (cfpc - 0.082663) / 0.046147, IF(cfpc <= 0.192415, 0.50 + 0.25 * (cfpc - 0.128810) / 0.063605, IF(cfpc <= 0.298789, 0.75 + 0.15 * (cfpc - 0.192415) / 0.106374, IF(cfpc <= 0.401334, 0.90 + 0.05 * (cfpc - 0.298789) / 0.102545, IF(cfpc <= 0.802668, 0.95 + 0.05 * (cfpc - 0.401334) / 0.401334, 1))))))))));
+Skor = SkorA + 4 * (cfpe - 0.5);
