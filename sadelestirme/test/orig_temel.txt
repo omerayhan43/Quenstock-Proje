@@ -1,0 +1,13 @@
+a=OzsermayeKarlilikYillik()>5;
+b=FAVOKYillik()>0 and (NetBorc()/FAVOKYillik())<4;
+roeD=OzsermayeKarlilikYillik();
+pdddLimit=IF(roeD>90,8+(roeD-90)*0.07,8);
+d=PDDD()<pdddLimit;
+h=Getiri("s2a","TL")>Getiri("s2a","TL","XUTUM");
+j=Getiri("s1a","TL")>-15;
+roeTeyit=OzsermayeKarlilikYillik()>=OzsermayeKarlilikYillik("",-1) or OzsermayeKarlilikYillik()>=OzsermayeKarlilikYillik("",-4);
+k=HAOran()<60;
+bb=Getiri("s12a","TL")<=300 or PDDD()<=8;
+epv=NetKarYillik()/PD();
+ucuz=epv>=0.025;
+a and b and d and h and j and roeTeyit and k and bb and ucuz;

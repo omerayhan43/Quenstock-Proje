@@ -1,0 +1,3 @@
+C > Mov(C,200) and
+C > Mov(C,75) and
+Mov(C,20)>Mov(C,60) ;

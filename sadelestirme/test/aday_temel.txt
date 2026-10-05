@@ -1,0 +1,9 @@
+roe=OzsermayeKarlilikYillik();
+pdddTavan=IF(roe>90,8+(roe-90)*0.07,8);
+karVerimi=NetKarYillik()/PD();
+karlilik=roe>5 and (roe>=OzsermayeKarlilikYillik("",-1) or roe>=OzsermayeKarlilikYillik("",-4));
+borc=FAVOKYillik()>0 and (NetBorc()/FAVOKYillik())<4;
+ucuzluk=PDDD()<pdddTavan and karVerimi>=0.025;
+fiyatGucu=Getiri("s2a","TL")>Getiri("s2a","TL","XUTUM") and Getiri("s1a","TL")>-15;
+balonFreni=Getiri("s12a","TL")<=300 or PDDD()<=8;
+karlilik and borc and ucuzluk and fiyatGucu and balonFreni and HAOran()<60;
