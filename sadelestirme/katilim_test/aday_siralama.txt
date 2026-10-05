@@ -1,0 +1,34 @@
+roe=OzsermayeKarlilikYillik();
+r75=Teknik.Indicator("C/Mov(C,75,S)","d");
+fnR=IF(roe>5,0,1)
+ +IF(FAVOKYillik()>0 and (NetBorc()/FAVOKYillik())<4,0,1)
+ +IF(PDDD()<IF(roe>90,8+(roe-90)*0.07,8),0,1)
+ +IF(Getiri("s2a","TL")>Getiri("s2a","TL","XUTUM"),0,1)
+ +IF(Getiri("s1a","TL")>-15,0,1)
+ +IF(HAOran()<60,0,1)
+ +IF(Getiri("s12a","TL")<=300 or PDDD()<=8,0,1)
+ +IF(NetKarYillik()/PD()>=0.025,0,1);
+fn=fnR+IF(roe>=OzsermayeKarlilikYillik("",-1) or roe>=OzsermayeKarlilikYillik("",-4),0,1);
+tf=3-IF(Teknik.Indicator("C/Mov(C,200,S)","d")>1,1,0)
+ -IF(r75>1,1,0)
+ -IF(Teknik.Indicator("Mov(C,20,S)/Mov(C,60,S)","d")>1,1,0);
+tier=IF(fn==0 and tf==0,0,IF(fn==0,1,IF(fnR==0,2,3)));
+favokBuyuyor=FAVOKBuyumeYillik()>Tufe(12) or (FAVOK("TL",0)>FAVOK("TL",-1) and FAVOK("TL",0)>FAVOK("TL",-4));
+faaliyetBuyuyor=(BrutEFKBuyumeYillik()>Tufe(12) or (BrutEFK("TL",0)>BrutEFK("TL",-1) and BrutEFK("TL",0)>BrutEFK("TL",-4))) and (EFKBuyumeYillik()>Tufe(12) or (EFK("TL",0)>EFK("TL",-1) and EFK("TL",0)>EFK("TL",-4)));
+tam=IF(Getiri("s2h","TL")>Getiri("s2h","TL","XUTUM")-10 and NetSatisBuyumeYillik()>Tufe(12) and (faaliyetBuyuyor or favokBuyuyor) and (EFK("TL",0)>=EFK("TL",-1) or EFK("TL",0)>=EFK("TL",-4)),1,0);
+xE=((EFK("TL",0)-EFK("TL",-4))/Abs(EFK("TL",-4)))/0.7;
+xF=((FAVOK("TL",0)-FAVOK("TL",-4))/Abs(FAVOK("TL",-4)))/0.6;
+xR=(roe-OzsermayeKarlilikYillik("",-1))/2;
+xI=(EFKBuyumeYillik()-EFKBuyumeYillik("",-1))/10;
+zRaw=Teknik.Indicator("C/HHV(H,252)","d");
+pE=IF(xE == null, -1, xE/(1+Abs(xE)));
+pF=IF(xF == null, -1, xF/(1+Abs(xF)));
+pR=IF(xR == null, -1, xR/(1+Abs(xR)));
+pI=IF(xI == null, -1, xI/(1+Abs(xI)));
+pZ=IF(zRaw == null, 0, ((zRaw-1)/0.0865)/(1+Abs((zRaw-1)/0.0865)));
+m6Raw=Teknik.Indicator("Ref(C,-21)/Ref(C,-126)","d");
+mom6=IF(m6Raw == null, 0, 8*IF(m6Raw-1>1, 1, IF(m6Raw-1<-1, -1, m6Raw-1)));
+karIvmesi=100+25*(pE+pF+pR+pI+pZ)+IF(r75 == null, 0, IF(r75>1.35, -15, 0))+mom6;
+SKOR=tam*1000+karIvmesi;
+DS=IF(SKOR == null, -500, SKOR)-100000*tier-IF(tier==3,2000*(fn+tf),0);
+IF(DS > -1000000, DS, -900000);
