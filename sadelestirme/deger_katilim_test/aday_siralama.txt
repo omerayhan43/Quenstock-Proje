@@ -1,0 +1,40 @@
+nk=NetKarYillik();
+pdx=PDDD();
+fdf=FDFAVOK();
+fkx=FK();
+qx=FAVOK()/FAVOKYillik();
+ocfG=FAVOKYillik()-(NetIsletmeSermayesi()-NetIsletmeSermayesi(null,-4));
+ocf=FAVOK()-(NetIsletmeSermayesi()-NetIsletmeSermayesi(null,-4));
+bedelliTarih=SermayeArtisBedelliTarihi();
+ortak=IF(nk>0,1,0)
+ +IF(AktifKarlilikYillik()>AktifKarlilikYillik(null,-4),1,0)
+ +IF((ToplamBorc()/Aktifler())<(ToplamBorc(null,-4)/Aktifler(null,-4)),1,0)
+ +IF(CariOran()>CariOran(-4),1,0)
+ +IF(BrutKarMarji()>BrutKarMarji(-4),1,0)
+ +IF(AktifDevirHizi()>AktifDevirHizi(null,-4),1,0)
+ +IF(bedelliTarih==null || YilEkle(bedelliTarih,1)<=AnalizTarih,1,0);
+fskorG=ortak+IF(ocfG>0,1,0)+IF(ocfG>nk,1,0);
+fdOK=IF(fdf > 0,1,0);
+fkok=IF(fkx == null || fkx < 40,1,0);
+pdok=IF(pdx == null || pdx < 8,1,0);
+qok=IF(qx > 0.22 || NetSatisBuyumeYillik() > 50,1,0);
+haOK=IF(HAOran()<60,1,0);
+mgOK=IF(Getiri("s12a","TL")-Getiri("s1a","TL")>Getiri("s12a","TL","XU100")-Getiri("s1a","TL","XU100"),1,0);
+t3OK=IF(IF(Getiri("s6a","TL")>=0,1,0)+IF(Teknik.Indicator("C/LLV(C,250)","d")>=1.5,1,0)+IF(Teknik.Indicator("C/HHV(C,250)","d")>=0.70,1,0)>=2,1,0);
+maOK=IF(Teknik.Indicator("Mov(C,20,S)/Mov(C,75,S)","d")>1,1,0);
+fundRest=fdOK*fkok*pdok*haOK*qok;
+tier=IF(fundRest == 1 and fskorG >= 7, IF(maOK*t3OK*mgOK == 1, 0, 1), IF(fundRest == 1 and fskorG == 6, 2, IF(fundRest == 1 and fskorG == 5, 3, 4)));
+trendYuzdesi=((Kapanis()-Mov(75))/Mov(75))*100;
+ocfRasyo=ocf/Aktifler();
+pdnx=PDNakitAkis();
+cfpc=IF(pdnx == null || pdnx == 0, -999, 1 / IF(pdnx == null || pdnx == 0, 1, pdnx));
+fdfavokSkor=IF(fdf <= 0.5, 100, IF(fdf >= 15, 0, (1 - (Log(fdf) / Log(15))) * 100));
+SkorB=(fdfavokSkor*0.73)
+ +(IF(trendYuzdesi>30,30,IF(trendYuzdesi<0,0,trendYuzdesi))*0.22)
+ +(IF(ocfRasyo>0.15,5,IF(ocfRasyo>0.08,3,IF(ocfRasyo>0,1,0)))*0.72)
+ +(IF(pdx<1.5,5,IF(pdx<3,3,0))*0.72)
+ +(IF(ortak+IF(ocf>0,1,0)+IF(ocf>nk,1,0)>=9 AND ocfRasyo>0.15 AND pdx<2,15,0)*0.72)
+ +(IF(ocf>0,5,0)*0.72)
+ +4*(IF(cfpc == -999, 0.5, IF(cfpc < 0, 0, IF(cfpc <= 0.036716, 0.05 * cfpc / 0.036716, IF(cfpc <= 0.050129, 0.05 + 0.05 * (cfpc - 0.036716) / 0.013413, IF(cfpc <= 0.082663, 0.10 + 0.15 * (cfpc - 0.050129) / 0.032534, IF(cfpc <= 0.128810, 0.25 + 0.25 * (cfpc - 0.082663) / 0.046147, IF(cfpc <= 0.192415, 0.50 + 0.25 * (cfpc - 0.128810) / 0.063605, IF(cfpc <= 0.298789, 0.75 + 0.15 * (cfpc - 0.192415) / 0.106374, IF(cfpc <= 0.401334, 0.90 + 0.05 * (cfpc - 0.298789) / 0.102545, IF(cfpc <= 0.802668, 0.95 + 0.05 * (cfpc - 0.401334) / 0.401334, 1))))))))))-0.5);
+DS=IF(SkorB == null, -500, SkorB)-100000*tier-IF(tier == 4, 2000*((1-fdOK)+(1-fkok)+(1-pdok)+(1-qok)+(1-haOK)+(1-mgOK)+(1-t3OK)+(1-maOK)+IF(fskorG >= 7, 0, 7-fskorG)), 0);
+IF(DS > -1000000, DS, -900000);
