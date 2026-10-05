@@ -10,8 +10,8 @@ fskor=IF(NetKarYillik()>0,1,0)
  +IF(AktifDevirHizi()>AktifDevirHizi(null,-4),1,0)
  +IF(bedelliTarih==null || YilEkle(bedelliTarih,1)<=AnalizTarih,1,0);
 ceyrekPayi=FAVOK()/FAVOKYillik();
-fk=FK();
-pddd=PDDD();
+fkx=FK();
+pdx=PDDD();
 momentum=Getiri("s12a","TL")-Getiri("s1a","TL")>Getiri("s12a","TL","XU100")-Getiri("s1a","TL","XU100");
 trend=IF(Getiri("s6a","TL")>=0,1,0)+IF(Teknik.Indicator("C/LLV(C,250)","d")>=1.5,1,0)+IF(Teknik.Indicator("C/HHV(C,250)","d")>=0.70,1,0)>=2;
-fskor>=7 and FDFAVOK()>0 and momentum and HAOran()<60 and (ceyrekPayi>0.22 || NetSatisBuyumeYillik()>50) and (fk==null || fk<40) and trend and (pddd==null || pddd<8);
+fskor>=7 and FDFAVOK()>0 and momentum and HAOran()<60 and (ceyrekPayi>0.22 || NetSatisBuyumeYillik()>50) and (fkx==null || fkx<40) and trend and (pdx==null || pdx<8);

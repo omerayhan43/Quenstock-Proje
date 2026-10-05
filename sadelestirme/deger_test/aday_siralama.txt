@@ -12,12 +12,12 @@ fskor=IF(NetKarYillik()>0,1,0)
 fdf=FDFAVOK();
 trendYuzdesi=((Kapanis()-Mov(75))/Mov(75))*100;
 ocfRasyo=ocf/Aktifler();
-pddd=PDDD();
+pdx=PDDD();
 SkorA=(IF(fdf<=0.5,100,IF(fdf>=15,0,(1-(Log(fdf)/Log(15)))*100))*0.73)
  +(IF(trendYuzdesi>30,30,IF(trendYuzdesi<0,0,trendYuzdesi))*0.22)
  +(IF(ocfRasyo>0.15,5,IF(ocfRasyo>0.08,3,IF(ocfRasyo>0,1,0)))*0.72)
- +(IF(pddd<1.5,5,IF(pddd<3,3,0))*0.72)
- +(IF(fskor>=9 AND ocfRasyo>0.15 AND pddd<2,15,0)*0.72)
+ +(IF(pdx<1.5,5,IF(pdx<3,3,0))*0.72)
+ +(IF(fskor>=9 AND ocfRasyo>0.15 AND pdx<2,15,0)*0.72)
  +(IF(ocf>0,5,0)*0.72);
 pdnx=PDNakitAkis();
 cfpc=IF(pdnx == null || pdnx == 0, -999, 1 / IF(pdnx == null || pdnx == 0, 1, pdnx));
